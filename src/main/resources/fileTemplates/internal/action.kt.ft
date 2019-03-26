@@ -1,0 +1,9 @@
+package ${PACKAGE_NAME}
+
+import com.etiennelenhart.eiffel.state.Action
+
+sealed class ${FEATURE_NAME_CAPITALIZED}Action : Action {
+
+    data class SomeAction(val parameter: Boolean) : ${FEATURE_NAME_CAPITALIZED}Action()
+    object AnotherAction : ${FEATURE_NAME_CAPITALIZED}Action()
+}

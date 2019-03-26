@@ -1,0 +1,25 @@
+package ${PACKAGE_NAME}
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.etiennelenhart.eiffel.state.extension.observe
+import com.etiennelenhart.eiffel.view.EiffelFragment
+import com.etiennelenhart.eiffel.view.delegate.eiffelViewModel
+import ${MODULE_PACKAGE}.R
+import ${FEATURE_PACKAGE}.viewmodel.${FEATURE_NAME_CAPITALIZED}ViewModel
+
+class ${FEATURE_NAME_CAPITALIZED}Fragment : EiffelFragment() {
+
+    private val viewModel: ${FEATURE_NAME_CAPITALIZED}ViewModel by eiffelViewModel()
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_${FEATURE_NAME_LOWERCASE}, container, false)
+        viewModel.state.observe(viewLifecycleOwner) { state ->
+            /* update view here */
+        }
+
+        return view
+    }
+}
