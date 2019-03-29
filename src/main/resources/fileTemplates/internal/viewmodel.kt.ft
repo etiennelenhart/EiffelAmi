@@ -1,0 +1,11 @@
+ package ${PACKAGE_NAME}
+
+ import com.etiennelenhart.eiffel.viewmodel.EiffelViewModel
+ import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_CAPITALIZED}Action
+ import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_CAPITALIZED}State
+ import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_LOWERCASE}Update
+
+ class ${FEATURE_NAME_CAPITALIZED}ViewModel : EiffelViewModel<${FEATURE_NAME_CAPITALIZED}State, ${FEATURE_NAME_CAPITALIZED}Action>(${FEATURE_NAME_CAPITALIZED}State()) {
+
+     override val update = ${FEATURE_NAME_LOWERCASE}Update()
+ }

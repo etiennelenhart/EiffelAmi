@@ -7,17 +7,24 @@
     Android Studio companion plugin for Eiffel 5.0 and up.
     ]]></description>
 
-    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
-         on how to target different products -->
-    <!-- uncomment to enable plugin in all products
-    <depends>com.intellij.modules.lang</depends>
-    -->
-
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <internalFileTemplate name="action"/>
+        <internalFileTemplate name="state"/>
+        <internalFileTemplate name="viewmodel"/>
+        <internalFileTemplate name="fragment"/>
+        <internalFileTemplate name="fragmentlayout"/>
     </extensions>
 
     <actions>
-        <!-- Add your actions here -->
+        <group id="EiffelAmi.NewGroup">
+            <add-to-group group-id="NewGroup" anchor="first"/>
+            <action id="EiffelFeatureAction"
+                    class="action.EiffelFeatureAction"
+                    icon="/images/new-feature.svg"
+                    text="Eiffel Feature"
+                    description="Generates a new Eiffel feature in the selected package.">
+            </action>
+            <separator/>
+        </group>
     </actions>
 </idea-plugin>

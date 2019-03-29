@@ -1,0 +1,13 @@
+package ${PACKAGE_NAME}
+
+import com.etiennelenhart.eiffel.state.State
+import com.etiennelenhart.eiffel.state.update
+
+data class ${FEATURE_NAME_CAPITALIZED}State(val property: Boolean = false) : State
+
+fun ${FEATURE_NAME_LOWERCASE}Update() = update<${FEATURE_NAME_CAPITALIZED}State, ${FEATURE_NAME_CAPITALIZED}Action> { action ->
+    when (action) {
+        is ${FEATURE_NAME_CAPITALIZED}Action.SomeAction -> copy(property = action.parameter)
+        else -> null
+    }
+}
