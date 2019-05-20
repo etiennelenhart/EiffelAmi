@@ -8,10 +8,10 @@ import com.intellij.openapi.roots.ProjectFileIndex
 import com.intellij.psi.JavaDirectoryService
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiManager
-import feature.component.CreateComponentResult
-import feature.component.stateComponent
-import feature.component.uiComponent
-import feature.component.viewModelComponent
+import feature.segment.CreateSegmentResult
+import feature.segment.stateSegment
+import feature.segment.uiSegment
+import feature.segment.viewModelSegment
 import util.createOrGetSubdirectory
 import util.manifestPackage
 import java.util.*
@@ -41,9 +41,9 @@ fun PsiDirectory.createEiffelFeature(project: Project, featureName: String): Cre
             }
 
             featureDirectory.run {
-                for (component in listOf(stateComponent, viewModelComponent, uiComponent)) {
-                    component(templateManager, properties, rootDirectory, featureName).let {
-                        if (it is CreateComponentResult.SkippedFiles) skippedFiles.addAll(it.names)
+                for (segment in listOf(stateSegment, viewModelSegment, uiSegment)) {
+                    segment(templateManager, properties, rootDirectory, featureName).let {
+                        if (it is CreateSegmentResult.SkippedFiles) skippedFiles.addAll(it.names)
                     }
                 }
             }
