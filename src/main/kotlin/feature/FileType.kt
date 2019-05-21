@@ -12,28 +12,33 @@ sealed class FileType {
     protected fun xmlFileName(prefix: String, featureName: String) =
         "${prefix}_${featureName.toLowerSnakeCase()}.xml"
 
-    class Action(featureName: String) : FileType() {
+    class Action(config: FeatureConfig) : FileType() {
         override val templateName = "action.kt"
-        override val fileName = ktFileName(featureName, "Action")
+        override val fileName = ktFileName(config.name, "Action")
     }
 
-    class State(featureName: String) : FileType() {
+    class State(config: FeatureConfig) : FileType() {
         override val templateName = "state.kt"
-        override val fileName = ktFileName(featureName, "State")
+        override val fileName = ktFileName(config.name, "State")
     }
 
-    class ViewModel(featureName: String) : FileType() {
+    class ViewModel(config: FeatureConfig) : FileType() {
         override val templateName = "viewmodel.kt"
-        override val fileName = ktFileName(featureName, "ViewModel")
+        override val fileName = ktFileName(config.name, "ViewModel")
     }
 
-    class Fragment(featureName: String) : FileType() {
+    class Factory(config: FeatureConfig) : FileType() {
+        override val templateName = "factory.kt"
+        override val fileName = ktFileName(config.name, "Factory")
+    }
+
+    class Fragment(config: FeatureConfig) : FileType() {
         override val templateName = "fragment.kt"
-        override val fileName = ktFileName(featureName, "Fragment")
+        override val fileName = ktFileName(config.name, "Fragment")
     }
 
-    class FragmentLayout(featureName: String) : FileType() {
+    class FragmentLayout(config: FeatureConfig) : FileType() {
         override val templateName = "fragmentlayout.xml"
-        override val fileName = xmlFileName("fragment", featureName)
+        override val fileName = xmlFileName("fragment", config.name)
     }
 }

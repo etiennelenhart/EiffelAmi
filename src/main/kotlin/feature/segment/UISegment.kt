@@ -5,15 +5,15 @@ import feature.FileType
 import feature.createEiffelFile
 import util.createOrGetSubdirectory
 
-val uiSegment: Segment = { templateManager, properties, rootDirectory, featureName ->
+val uiSegment: Segment = { templateManager, properties, rootDirectory, config ->
     createEiffelSegment { skippedFiles ->
         createOrGetSubdirectory("ui").run {
-            createEiffelFile(FileType.Fragment(featureName), templateManager, properties).let {
+            createEiffelFile(FileType.Fragment(config), templateManager, properties).let {
                 if (it is CreateFileResult.AlreadyExists) skippedFiles.add(it.name)
             }
         }
         rootDirectory.createOrGetSubdirectory("res").createOrGetSubdirectory("layout").run {
-            createEiffelFile(FileType.FragmentLayout(featureName), templateManager, properties).let {
+            createEiffelFile(FileType.FragmentLayout(config), templateManager, properties).let {
                 if (it is CreateFileResult.AlreadyExists) skippedFiles.add(it.name)
             }
         }

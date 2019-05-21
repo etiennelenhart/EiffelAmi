@@ -2,13 +2,14 @@ package feature.segment
 
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.psi.PsiDirectory
+import feature.FeatureConfig
 import java.util.*
 
 typealias Segment = PsiDirectory.(
     manager: FileTemplateManager,
     properties: Properties,
     rootDirectory: PsiDirectory,
-    featureName: String
+    config: FeatureConfig
 ) -> CreateSegmentResult
 
 fun createEiffelSegment(create: (skippedFiles: MutableList<String>) -> Unit): CreateSegmentResult {
