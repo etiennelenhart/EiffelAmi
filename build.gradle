@@ -24,6 +24,7 @@ compileTestKotlin {
 }
 intellij {
     version '2018.2.6'
+    intellij.updateSinceUntilBuild false
     alternativeIdePath '/Applications/Android Studio.app'
 }
 patchPluginXml {

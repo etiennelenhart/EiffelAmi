@@ -11,9 +11,16 @@
         <internalFileTemplate name="action"/>
         <internalFileTemplate name="state"/>
         <internalFileTemplate name="viewmodel"/>
+        <internalFileTemplate name="factory"/>
         <internalFileTemplate name="fragment"/>
         <internalFileTemplate name="fragmentlayout"/>
     </extensions>
+
+    <project-components>
+        <component>
+            <implementation-class>component.EiffelFeatureComponent</implementation-class>
+        </component>
+    </project-components>
 
     <actions>
         <group id="EiffelAmi.NewGroup">

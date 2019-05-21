@@ -1,5 +1,6 @@
 package feature
 
+import com.fleshgrinder.extensions.kotlin.toLowerSnakeCase
 import com.intellij.ide.fileTemplates.FileTemplateManager
 import com.intellij.ide.projectView.ProjectView
 import com.intellij.openapi.command.WriteCommandAction
@@ -8,19 +9,19 @@ import com.intellij.openapi.roots.ProjectFileIndex
 import com.intellij.psi.JavaDirectoryService
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiManager
-import feature.component.CreateComponentResult
-import feature.component.stateComponent
-import feature.component.uiComponent
-import feature.component.viewModelComponent
+import feature.segment.CreateSegmentResult
+import feature.segment.stateSegment
+import feature.segment.uiSegment
+import feature.segment.viewModelSegment
 import util.createOrGetSubdirectory
 import util.manifestPackage
 import java.util.*
 
-fun PsiDirectory.createEiffelFeature(project: Project, featureName: String): CreateFeatureResult {
+fun PsiDirectory.createEiffelFeature(project: Project, config: FeatureConfig): CreateFeatureResult {
     val rootDirectory = ProjectFileIndex.SERVICE.getInstance(project).getSourceRootForFile(virtualFile)?.let {
         PsiManager.getInstance(project).findDirectory(it)?.parent
     }
-    val featureNameLowerCase = featureName.toLowerCase()
+    val featureNameLowerCase = config.name.toLowerCase()
 
     if (findSubdirectory(featureNameLowerCase) != null) {
         return CreateFeatureResult.AlreadyExists
@@ -37,13 +38,16 @@ fun PsiDirectory.createEiffelFeature(project: Project, featureName: String): Cre
                 setProperty("MODULE_PACKAGE", manifestPackage)
                 setProperty("FEATURE_PACKAGE", featurePackage)
                 setProperty("FEATURE_NAME_LOWERCASE", featureNameLowerCase)
-                setProperty("FEATURE_NAME_CAPITALIZED", featureName.capitalize())
+                setProperty("FEATURE_NAME_SNAKE_CASE", config.name.toLowerSnakeCase())
+                setProperty("FEATURE_NAME_CAPITALIZED", config.name.capitalize())
+                setProperty("FEATURE_NAME_DECAPITALIZED", config.name.decapitalize())
+                setProperty("GENERATE_FACTORY", config.generateFactory.toString())
             }
 
             featureDirectory.run {
-                for (component in listOf(stateComponent, viewModelComponent, uiComponent)) {
-                    component(templateManager, properties, rootDirectory, featureName).let {
-                        if (it is CreateComponentResult.SkippedFiles) skippedFiles.addAll(it.names)
+                for (segment in listOf(stateSegment, viewModelSegment, uiSegment)) {
+                    segment(templateManager, properties, rootDirectory, config).let {
+                        if (it is CreateSegmentResult.SkippedFiles) skippedFiles.addAll(it.names)
                     }
                 }
             }

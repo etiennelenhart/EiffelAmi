@@ -1,17 +1,17 @@
-package feature.component
+package feature.segment
 
-import feature.FileType
 import feature.CreateFileResult
+import feature.FileType
 import feature.createEiffelFile
 import util.createOrGetSubdirectory
 
-val stateComponent: Component = { templateManager, properties, _, featureName ->
-    createEiffelComponent { skippedFiles ->
+val stateSegment: Segment = { templateManager, properties, _, config ->
+    createEiffelSegment { skippedFiles ->
         createOrGetSubdirectory("state").run {
-            createEiffelFile(FileType.Action(featureName), templateManager, properties).let {
+            createEiffelFile(FileType.Action(config), templateManager, properties).let {
                 if (it is CreateFileResult.AlreadyExists) skippedFiles.add(it.name)
             }
-            createEiffelFile(FileType.State(featureName), templateManager, properties).let {
+            createEiffelFile(FileType.State(config), templateManager, properties).let {
                 if (it is CreateFileResult.AlreadyExists) skippedFiles.add(it.name)
             }
         }

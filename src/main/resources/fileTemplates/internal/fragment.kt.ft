@@ -4,18 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.etiennelenhart.eiffel.state.extension.observe
-import com.etiennelenhart.eiffel.view.EiffelFragment
-import com.etiennelenhart.eiffel.view.delegate.eiffelViewModel
+import com.etiennelenhart.eiffel.viewmodel.delegate.eiffelViewModel
 import ${MODULE_PACKAGE}.R
 import ${FEATURE_PACKAGE}.viewmodel.${FEATURE_NAME_CAPITALIZED}ViewModel
 
-class ${FEATURE_NAME_CAPITALIZED}Fragment : EiffelFragment() {
+class ${FEATURE_NAME_CAPITALIZED}Fragment : Fragment() {
 
+    #if(${GENERATE_FACTORY} == true)
+    private val viewModel: ${FEATURE_NAME_CAPITALIZED}ViewModel by eiffelViewModel { /* provide ${FEATURE_NAME_CAPITALIZED}Factory here */ }
+    #else
     private val viewModel: ${FEATURE_NAME_CAPITALIZED}ViewModel by eiffelViewModel()
+    #end
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = inflater.inflate(R.layout.fragment_${FEATURE_NAME_LOWERCASE}, container, false)
+        val view = inflater.inflate(R.layout.fragment_${FEATURE_NAME_SNAKE_CASE}, container, false)
         viewModel.state.observe(viewLifecycleOwner) { state ->
             /* update view here */
         }
