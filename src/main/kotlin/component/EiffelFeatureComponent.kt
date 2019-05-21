@@ -6,19 +6,22 @@ import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 import com.intellij.openapi.project.Project
 import feature.FeatureConfig
+import feature.asConfig
 
-@State(name = "EiffelFeatureComponent", storages = [Storage(value = "eiffelFeatureComponent.xml")])
+@State(name = "EiffelFeatureComponent", storages = [Storage(value = "eiffelFeatureState.xml")])
 class EiffelFeatureComponent private constructor(
     project: Project? = null
-) : AbstractProjectComponent(project), PersistentStateComponent<FeatureConfig> {
+) : AbstractProjectComponent(project), PersistentStateComponent<EiffelFeatureState> {
 
-    var config = FeatureConfig()
-        private set
+    val config: FeatureConfig
+        get() = state.asConfig()
 
-    override fun getState() = config
+    private var state = EiffelFeatureState()
 
-    override fun loadState(state: FeatureConfig) {
-        config = state
+    override fun getState() = state
+
+    override fun loadState(state: EiffelFeatureState) {
+        this.state = state
     }
 
     companion object {
@@ -27,3 +30,9 @@ class EiffelFeatureComponent private constructor(
             project.getComponent(EiffelFeatureComponent::class.java)
     }
 }
+
+data class EiffelFeatureState(
+    @Transient var name: String = "",
+    var addInterceptions: Boolean = false,
+    var generateFactory: Boolean = false
+)

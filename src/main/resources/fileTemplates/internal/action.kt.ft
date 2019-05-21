@@ -1,9 +1,34 @@
 package ${PACKAGE_NAME}
 
+#if(${ADD_INTERCEPTIONS} == true)
+import com.etiennelenhart.eiffel.interception.interceptions
+#end
 import com.etiennelenhart.eiffel.state.Action
 
 sealed class ${FEATURE_NAME_CAPITALIZED}Action : Action {
 
     data class SomeAction(val parameter: Boolean) : ${FEATURE_NAME_CAPITALIZED}Action()
     object AnotherAction : ${FEATURE_NAME_CAPITALIZED}Action()
+    object MoreAction : ${FEATURE_NAME_CAPITALIZED}Action()
 }
+#if(${ADD_INTERCEPTIONS} == true)
+
+fun ${FEATURE_NAME_DECAPITALIZED}Interceptions() = interceptions<${FEATURE_NAME_CAPITALIZED}State, ${FEATURE_NAME_CAPITALIZED}Action> {
+    command { action ->
+        when (action) {
+            is ${FEATURE_NAME_CAPITALIZED}Action.SomeAction -> forwarding { state, dispatch ->
+                /* do something here */
+            }
+            is ${FEATURE_NAME_CAPITALIZED}Action.AnotherAction -> consuming(${FEATURE_NAME_CAPITALIZED}Action.SomeAction(false)) { state, dispatch ->
+                /* do something different here */
+            }
+            else -> ignoring()
+        }
+    }
+    on<${FEATURE_NAME_CAPITALIZED}Action.MoreAction> {
+        forwardingCommand { state, action, dispatch ->
+            /* do something targeted to this action here */
+        }
+    }
+}
+#end
