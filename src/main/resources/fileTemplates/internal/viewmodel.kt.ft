@@ -1,12 +1,20 @@
 package ${PACKAGE_NAME}
 
+#if(${ADD_INTERCEPTIONS} == true)
+import com.etiennelenhart.eiffel.interception.Interceptions
+#end
 import com.etiennelenhart.eiffel.viewmodel.EiffelViewModel
 import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_CAPITALIZED}Action
 import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_CAPITALIZED}State
 import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_DECAPITALIZED}Update
 
 class ${FEATURE_NAME_CAPITALIZED}ViewModel(
+    #if(${ADD_INTERCEPTIONS} == true)
+    initialState: ${FEATURE_NAME_CAPITALIZED}State,
+    override val interceptions: Interceptions<${FEATURE_NAME_CAPITALIZED}State, ${FEATURE_NAME_CAPITALIZED}Action>
+    #else
     initialState: ${FEATURE_NAME_CAPITALIZED}State
+    #end
 ) : EiffelViewModel<${FEATURE_NAME_CAPITALIZED}State, ${FEATURE_NAME_CAPITALIZED}Action>(initialState) {
 
     override val update = ${FEATURE_NAME_DECAPITALIZED}Update()

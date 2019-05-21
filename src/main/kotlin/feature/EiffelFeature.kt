@@ -42,6 +42,7 @@ fun PsiDirectory.createEiffelFeature(project: Project, config: FeatureConfig): C
                 setProperty("FEATURE_NAME_CAPITALIZED", config.name.capitalize())
                 setProperty("FEATURE_NAME_DECAPITALIZED", config.name.decapitalize())
                 setProperty("GENERATE_FACTORY", config.generateFactory.toString())
+                setProperty("ADD_INTERCEPTIONS", config.addInterceptions.toString())
             }
 
             featureDirectory.run {

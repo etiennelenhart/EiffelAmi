@@ -14,17 +14,17 @@ class EiffelFeatureAction : AnAction() {
 
     override fun actionPerformed(event: AnActionEvent) {
         val project = checkNotNull(event.project) { "Project for '$event' is null!" }
-        val config = EiffelFeatureComponent.instance(project).config
+        val component = EiffelFeatureComponent.instance(project)
 
-        NewFeatureDialog(config).run {
+        NewFeatureDialog(component.state).run {
             if (!showAndGet()) return
 
             val currentDirectory = event.getData(LangDataKeys.IDE_VIEW)?.orChooseDirectory
 
-            when (val result = currentDirectory?.createEiffelFeature(project, config)) {
+            when (val result = currentDirectory?.createEiffelFeature(project, component.config)) {
                 CreateFeatureResult.Created -> Unit
                 is CreateFeatureResult.AlreadyExists -> {
-                    project.showErrorBalloon(ERROR_TITLE, "Feature '${config.name}' already exists.")
+                    project.showErrorBalloon(ERROR_TITLE, "Feature '${component.config.name}' already exists.")
                 }
                 CreateFeatureResult.MissingManifestPackage -> {
                     project.showErrorBalloon(ERROR_TITLE, "AndroidManifest.xml does not contain package name.")

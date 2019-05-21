@@ -4,12 +4,20 @@ import androidx.savedstate.SavedStateRegistryOwner
 import com.etiennelenhart.eiffel.factory.EiffelFactory
 import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_CAPITALIZED}Action
 import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_CAPITALIZED}State
+#if(${ADD_INTERCEPTIONS} == true)
+import ${FEATURE_PACKAGE}.state.${FEATURE_NAME_DECAPITALIZED}Interceptions
+#end
 
 class ${FEATURE_NAME_CAPITALIZED}Factory(
     owner: SavedStateRegistryOwner
 ) : EiffelFactory<${FEATURE_NAME_CAPITALIZED}ViewModel, ${FEATURE_NAME_CAPITALIZED}State, ${FEATURE_NAME_CAPITALIZED}Action>(owner) {
 
     override fun create(initialState: ${FEATURE_NAME_CAPITALIZED}State) = ${FEATURE_NAME_CAPITALIZED}ViewModel(
+        #if(${ADD_INTERCEPTIONS} == true)
+        initialState = initialState,
+        interceptions = ${FEATURE_NAME_DECAPITALIZED}Interceptions()
+        #else
         initialState = initialState
+        #end
     )
 }
