@@ -34,5 +34,9 @@ class EiffelFeatureComponent private constructor(
 data class EiffelFeatureState(
     @Transient var name: String = "",
     var addInterceptions: Boolean = false,
-    var generateFactory: Boolean = false
-)
+    var generateFactory: Boolean = false,
+    var viewType: ViewType = ViewType.ACTIVITY
+) {
+
+    enum class ViewType { ACTIVITY, FRAGMENT }
+}

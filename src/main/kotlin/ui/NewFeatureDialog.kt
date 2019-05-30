@@ -4,9 +4,7 @@ import com.intellij.openapi.ui.DialogWrapper
 import component.EiffelFeatureState
 import util.SimpleDocumentListener
 import java.awt.event.ItemEvent
-import javax.swing.JCheckBox
-import javax.swing.JPanel
-import javax.swing.JTextField
+import javax.swing.*
 import javax.swing.event.DocumentEvent
 
 class NewFeatureDialog(private val state: EiffelFeatureState) : DialogWrapper(true) {
@@ -15,6 +13,9 @@ class NewFeatureDialog(private val state: EiffelFeatureState) : DialogWrapper(tr
     private lateinit var nameField: JTextField
     private lateinit var interceptionsCheckBox: JCheckBox
     private lateinit var factoryCheckBox: JCheckBox
+    private lateinit var viewTypeButtonGroup: ButtonGroup
+    private lateinit var activityRadioButton: JRadioButton
+    private lateinit var fragmentRadioButton: JRadioButton
 
     init {
         init()
@@ -23,6 +24,8 @@ class NewFeatureDialog(private val state: EiffelFeatureState) : DialogWrapper(tr
         isOKActionEnabled = false
 
         state.run {
+            viewTypeButtonGroup.setSelected(activityRadioButton.model, viewType == EiffelFeatureState.ViewType.ACTIVITY)
+            viewTypeButtonGroup.setSelected(fragmentRadioButton.model, viewType == EiffelFeatureState.ViewType.FRAGMENT)
             interceptionsCheckBox.isSelected = addInterceptions
             factoryCheckBox.isSelected = generateFactory
             factoryCheckBox.isEnabled = !addInterceptions
@@ -33,7 +36,11 @@ class NewFeatureDialog(private val state: EiffelFeatureState) : DialogWrapper(tr
                 isOKActionEnabled = nameField.text.isNotBlank()
             }
         })
-        interceptionsCheckBox.addItemListener { factoryCheckBox.isEnabled = it.stateChange == ItemEvent.DESELECTED }
+        activityRadioButton.actionCommand = EiffelFeatureState.ViewType.ACTIVITY.name
+        fragmentRadioButton.actionCommand = EiffelFeatureState.ViewType.FRAGMENT.name
+        interceptionsCheckBox.addItemListener {
+            factoryCheckBox.isEnabled = it.stateChange == ItemEvent.DESELECTED
+        }
 
         setOKButtonText("Create")
     }
@@ -47,6 +54,7 @@ class NewFeatureDialog(private val state: EiffelFeatureState) : DialogWrapper(tr
             name = nameField.text
             addInterceptions = interceptionsCheckBox.isSelected
             generateFactory = factoryCheckBox.isSelected
+            viewType = EiffelFeatureState.ViewType.valueOf(viewTypeButtonGroup.selection.actionCommand)
         }
         super.doOKAction()
     }

@@ -12,8 +12,9 @@
         <internalFileTemplate name="state"/>
         <internalFileTemplate name="viewmodel"/>
         <internalFileTemplate name="factory"/>
+        <internalFileTemplate name="activity"/>
         <internalFileTemplate name="fragment"/>
-        <internalFileTemplate name="fragmentlayout"/>
+        <internalFileTemplate name="layout"/>
     </extensions>
 
     <project-components>

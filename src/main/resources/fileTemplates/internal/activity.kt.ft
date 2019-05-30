@@ -1,0 +1,26 @@
+package ${PACKAGE_NAME}
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.etiennelenhart.eiffel.state.extension.observe
+import com.etiennelenhart.eiffel.viewmodel.delegate.eiffelViewModel
+import ${MODULE_PACKAGE}.R
+import ${FEATURE_PACKAGE}.viewmodel.${FEATURE_NAME_CAPITALIZED}ViewModel
+
+class ${FEATURE_NAME_CAPITALIZED}Activity : AppCompatActivity() {
+
+    #if(${GENERATE_FACTORY} == true)
+    private val viewModel: ${FEATURE_NAME_CAPITALIZED}ViewModel by eiffelViewModel { /* provide ${FEATURE_NAME_CAPITALIZED}Factory here */ }
+    #else
+    private val viewModel: ${FEATURE_NAME_CAPITALIZED}ViewModel by eiffelViewModel()
+    #end
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContentView(R.layout.activity_${FEATURE_NAME_SNAKE_CASE})
+        viewModel.state.observe(this) { state ->
+            /* update view here */
+        }
+    }
+}
