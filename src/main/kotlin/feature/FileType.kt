@@ -1,6 +1,7 @@
 package feature
 
 import com.fleshgrinder.extensions.kotlin.toLowerSnakeCase
+import component.EiffelFeatureState
 
 sealed class FileType {
 
@@ -32,13 +33,24 @@ sealed class FileType {
         override val fileName = ktFileName(config.name, "Factory")
     }
 
+    class Activity(config: FeatureConfig) : FileType() {
+        override val templateName = "activity.kt"
+        override val fileName = ktFileName(config.name, "Activity")
+    }
+
     class Fragment(config: FeatureConfig) : FileType() {
         override val templateName = "fragment.kt"
         override val fileName = ktFileName(config.name, "Fragment")
     }
 
-    class FragmentLayout(config: FeatureConfig) : FileType() {
-        override val templateName = "fragmentlayout.xml"
-        override val fileName = xmlFileName("fragment", config.name)
+    class Layout(config: FeatureConfig) : FileType() {
+        override val templateName = "layout.xml"
+        override val fileName = xmlFileName(
+            when (config.viewType) {
+                EiffelFeatureState.ViewType.ACTIVITY -> "activity"
+                EiffelFeatureState.ViewType.FRAGMENT -> "fragment"
+            },
+            config.name
+        )
     }
 }

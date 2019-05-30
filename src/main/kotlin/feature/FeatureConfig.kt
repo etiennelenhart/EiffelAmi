@@ -3,13 +3,15 @@ package feature
 import component.EiffelFeatureState
 
 data class FeatureConfig(
-    var name: String = "",
-    var addInterceptions: Boolean = false,
-    var generateFactory: Boolean = false
+    val name: String = "",
+    val addInterceptions: Boolean = false,
+    val generateFactory: Boolean = false,
+    val viewType: EiffelFeatureState.ViewType = EiffelFeatureState.ViewType.ACTIVITY
 )
 
 fun EiffelFeatureState.asConfig() = FeatureConfig(
     name = name,
     addInterceptions = addInterceptions,
-    generateFactory = addInterceptions || generateFactory
+    generateFactory = addInterceptions || generateFactory,
+    viewType = viewType
 )
